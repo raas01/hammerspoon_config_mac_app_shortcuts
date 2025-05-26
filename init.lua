@@ -51,4 +51,11 @@ local optionKeys = {
     end
   end)
 
-  
+  hs.hotkey.bind({"option"}, "=", function()
+    -- Show all windows of all applications
+    for _, app in ipairs(hs.application.runningApplications()) do
+      if app:isHidden() then
+        app:unhide()
+      end
+    end
+  end)
