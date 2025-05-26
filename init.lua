@@ -42,7 +42,6 @@ local optionKeys = {
     end)
   end
 
-
   hs.hotkey.bind({"option"}, "space", function()
     local currentApp = hs.application.frontmostApplication()
     for _, app in ipairs(hs.application.runningApplications()) do
