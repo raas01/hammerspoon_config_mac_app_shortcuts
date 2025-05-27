@@ -12,6 +12,10 @@ local optionKeys = {
   local cmdKeys = {
     j = "ghostty"
   }
+
+  local appsToNotHide = {
+    "CleanShot X"
+  }
   
   -- Focus app and hide all others
   local function focusApp(appName)
@@ -21,7 +25,14 @@ local optionKeys = {
     -- Then hide other apps in the background
     local targetApp = hs.application.find(appName)
     for _, app in ipairs(hs.application.runningApplications()) do
-      if app ~= targetApp and not app:isHidden() then
+      local shouldNotHide = false
+      for _, excludedApp in ipairs(appsToNotHide) do
+        if app:name() == excludedApp then
+          shouldNotHide = true
+          break
+        end
+      end
+      if app ~= targetApp and not app:isHidden() and not shouldNotHide then
         app:hide()
       end
     end
@@ -45,7 +56,14 @@ local optionKeys = {
   hs.hotkey.bind({"option"}, "space", function()
     local currentApp = hs.application.frontmostApplication()
     for _, app in ipairs(hs.application.runningApplications()) do
-      if app ~= currentApp and not app:isHidden() then
+      local shouldNotHide = false
+      for _, excludedApp in ipairs(appsToNotHide) do
+        if app:name() == excludedApp then
+          shouldNotHide = true
+          break
+        end
+      end
+      if app ~= currentApp and not app:isHidden() and not shouldNotHide then
         app:hide()
       end
     end
